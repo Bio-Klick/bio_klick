@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bio klick</title>
+
+<!-- Teko + Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#00132D;
+  --card:#000000;
+  --white:#ffffff;
+  --accent:#ccff33;
+  --accentText:#00132D;
+  --muted:#CAF0F8;
+  --radius:28px;
+  --shadow:0 12px 30px rgba(0,0,0,.35);
+  --fadeDur:.9s;
+  --slideY:14px;
+}
+
+/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family: "Teko", sans-serif;  /* ✅ كل الصفحة Teko */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Splash */
+.splash{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg);
+  z-index:50;
+  transition:opacity .45s ease, visibility .45s ease;
+}
+.splash.hidden{opacity:0; visibility:hidden}
+
+/* Logo with neon loader */
+.logoWrap{
+  position:relative;
+  width:100px;
+  height:100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logoWrap img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  z-index:2;
+}
+.logoWrap::before{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:50%;
+  border:4px solid transparent;
+  border-top:4px solid var(--accent);
+  border-right:4px solid var(--accent);
+  animation:spin 1.2s linear infinite;
+  filter:drop-shadow(0 0 6px var(--accent));
+  z-index:1;
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+/* Layout */
+.wrap{width:100%; max-width:780px; padding:24px;}
+.card {
+  position:relative;
+  background:var(--card);
+  border-radius:var(--radius);
+  padding: clamp(22px, 5vw, 40px) clamp(18px, 6vw, 48px) clamp(26px, 6vw, 44px);
+  box-shadow: var(--shadow);
+  isolation:isolate;
+  top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tab {
+  position:absolute; 
+  left:50%; 
+  transform:translateX(-50%);
+  top:-110px; 
+  width: clamp(110px, 22vw, 180px); 
+  height: clamp(110px, 22vw, 180px);
+  background:#000; 
+  border-radius:50%; 
+  
+  display:grid; 
+  place-items:center; 
+  overflow:hidden;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.tab img{width:100%; height:100%; object-fit:cover; border-radius:50%;}
+
+.subtitle{
+  color:var(--muted);
+  font-size:clamp(14px, 2.6vw, 18px);
+  margin-top: clamp(60px, 12vw, 86px);
+  margin-bottom:6px;
+}
+h1{margin:0 0 6px 0;font-size:clamp(40px, 8vw, 64px);margin-top:45px;}
+.slogan {
+  margin-top: -5px;   /* قلل المسافة من فوق */
+  margin-bottom: 8px; /* قلل المسافة من تحت */
+  padding: 0;         /* تأكد مفيش padding */
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;    /* حجم الشعار */
+  font-weight: 400;
+  line-height: 1.2;   /* يتحكم في المسافة بين السطور */
+}
+
+.desc{
+  font-family:'Montserrat', sans-serif; /* ✅ Montserrat للـ description فقط */
+  color:#cdd7e1;
+  margin:0 0 24px 0;
+  font-size:clamp(14px, 3.3vw, 18px);
+  line-height:1.55;
+}
+
+.btn {
+  display: inline-block;
+  background: #CCFF33;
+  color: #000;
+  padding: 10px 10px;
+  margin: -5px 0;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.3s;
+  width: 240px;
+  display: block;
+  text-align: center;
+  transition: all 0.35s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: skewX(-25deg);
+  transition: 0.75s;
+}
+
+.btn:hover::before {
+  left: 130%;
+}
+
+.btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 5px 5px rgba(204, 255, 51, 0.40);
+}
+
+.btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.social{display:flex;gap:30px;margin-top:30px;justify-content:center;}
+.social a img{width:27px;height:27px;transition:transform .18s ease, filter .18s ease;}
+.social a:hover img{transform:scale(1.2);filter: brightness(140%);}
+
+        .share-button {
+            position: fixed; /* تم التعديل إلى fixed */
+            bottom: 20px;
+            right: 20px;
+            background-color: #000;
+            color: #E62469;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .share-button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .share-button:hover {
+            background-color: #000;
+        }
+        .share-button:hover img {
+
+            content: url('share.png');
+        }
+/* Reveal animations */
+.reveal [data-anim]{opacity:0; transform:translateY(var(--slideY));}
+.reveal.ready [data-anim]{animation:fadeUp var(--fadeDur) ease forwards}
+.reveal.ready [data-anim="1"]{animation-delay:.1s}
+.reveal.ready [data-anim="2"]{animation-delay:.25s}
+.reveal.ready [data-anim="3"]{animation-delay:.4s}
+.reveal.ready [data-anim="4"]{animation-delay:.55s}
+.reveal.ready [data-anim="5"]{animation-delay:.7s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+@media (max-width:420px){
+  .tab{top:-48px}
+}
+</style>
+</head>
+<body>
+
+<!-- Splash -->
+<div class="splash" id="splash" aria-hidden="false">
+  <div class="logoWrap">
+    <img src="IMG_6941.JPG" alt="Logo">
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="wrap reveal" id="content" aria-hidden="true">
+  <section class="card">
+    <div class="tab">
+      <img src="IMG_6941.JPG" alt="Logo">
+    </div>
+
+    <h1 data-anim="2">BIO KLICK</h1>
+    <p class="slogan" data-anim="3">Elevate your identity.</p>
+    <p class="desc" data-anim="4">
+      The ultimate way to showcase your profile, gather all your information, links, and social
+      media in one place—making connections effortless and helping you stand out from traditional methods.
+    </p>
+    <div class="buttons"data-anim="5">
+      <a href="https://wa.me/201145450096?text=Hello%2C%20I%27m%20interested%20in%20creating%20a%20customized%20Bio%20Page.%20Please%20share%20with%20me%20the%20required%20details%20to%20get%20started.%0A%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%B9%D9%85%D9%84%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9%20%D9%85%D8%AE%D8%B5%D8%B5%D8%A9.%20%D9%85%D9%86%20%D9%81%D8%B6%D9%84%D9%83%D9%85%20%D8%A3%D8%B1%D8%B3%D9%84%D9%88%D8%A7%20%D9%84%D9%8A%20%D8%A7%D9%84%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A7%D9%84%D9%85%D8%B7%D9%84%D9%88%D8%A8%D8%A9%20%D9%84%D9%84%D8%A8%D8%AF%D8%A1." class="btn">Create Your Bio Page</a>
+    </div>
+    <div class="social" data-anim="5" aria-label="Social links">
+      <a href="https://www.instagram.com/bio_klick_?igsh=MW42bmNkZWJ6aXR6cg==" aria-label="Instagram"><img src="instagram.png" alt="Instagram"></a>
+      <a href="https://www.tiktok.com/@bio_klick_?_t=ZS-8zAhiszDsnt&_r=1" aria-label="TikTok"><img src="tik-tok.png" alt="TikTok"></a>
+      <a href="https://wa.me/201145450096" aria-label="WhatsApp"><img src="whatsapp.png" alt="WhatsApp"></a>
+    </div>
+  </section>
+</main>
+    <button class="share-button" onclick="sharePage()">
+        <img src="share (5).png" alt="Share">
+    </button>
+<script>
+(function(){
+  const splash = document.getElementById('splash');
+  const content = document.getElementById('content');
+
+  setTimeout(()=>{
+    splash.classList.add('hidden');
+    splash.setAttribute('aria-hidden','true');
+    content.setAttribute('aria-hidden','false');
+    setTimeout(()=> content.classList.add('ready'), 380);
+  }, 2000);
+})();
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: "BIO KLICK",
+                    text: "Elevate your identity.",
+                    url: "https://bio-klick.github.io/bio_klick/"
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch(console.error);
+            } else {
+                alert('Web Share API is not supported in your browser.');
+            }
+        }
+</script>
+</body>
+</html>
